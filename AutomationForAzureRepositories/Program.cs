@@ -1,6 +1,6 @@
 ﻿namespace AutomationForAzureRepositories
 {
-    class Program
+    internal class Program
     {
         /// <summary>
         /// Change to folder that contain repositories
@@ -28,7 +28,7 @@
         /// </summary>
         private const string CommitMessageForMergeDevToMaster = "Merge for sprint 27";
 
-        static void Main()
+        private static void Main()
         {
             var azureService = new AzureAutomationService(new GitService());
             CreatePrForTask(azureService);

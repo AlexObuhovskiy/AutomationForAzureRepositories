@@ -111,7 +111,7 @@ namespace AutomationForAzureRepositories
             if (!Directory.Exists(directoryPath))
             {
                 throw new ArgumentException(
-                    $"Can't change directory. There is no folder by following path: '${directoryPath}'");
+                    $"Can't change directory. There is no folder with following path: '${directoryPath}'");
             }
 
             ps.AddScript($"cd {directoryPath}").Invoke();
