@@ -1,0 +1,8 @@
+.vs
+*.ncrunchsolution
+*.cache
+*.user
+bin/
+obj/
+NugetPackages
+out
