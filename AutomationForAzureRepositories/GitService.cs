@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Management.Automation;
+using System.Text;
 
 namespace AutomationForAzureRepositories
 {
@@ -82,26 +83,33 @@ namespace AutomationForAzureRepositories
             using var ps = PowerShell.Create();
 
             ps.AddScript("az login").Invoke();
-            ps.AddScript("az repos pr create " +
-                         $"--org '{AzureDevOpsOrganizationUrl}' " +
-                         $"--project '{AzureDevOpsProjectName}' " +
-                         $"--repository '{repositoryName}' " +
-                         $"--source-branch '{branchName}' " +
-                         $"--target-branch '{targetBranch}' " +
-                         $"--title '{commitMessage}' " +
-                         $"--description '{commitMessage}'" +
-                         $"--work-items {taskNumber} " +
-                         $"--auto-complete {autoComplete} " +
-                         $"--delete-source-branch {deleteSourceBranch} " +
-                         $"--merge-commit-message {commitMessage} " +
-                         $"--transition-work-items {transitionWorkItems}").Invoke();
+            
+            var azurePrCommandBuilder = new StringBuilder();
+            azurePrCommandBuilder.Append("az repos pr create ");
+            azurePrCommandBuilder.Append($"--org '{AzureDevOpsOrganizationUrl}' ");
+            azurePrCommandBuilder.Append($"--project '{AzureDevOpsProjectName}' ");
+            azurePrCommandBuilder.Append($"--repository '{repositoryName}' ");
+            azurePrCommandBuilder.Append($"--source-branch '{branchName}' ");
+            azurePrCommandBuilder.Append($"--target-branch '{targetBranch}' ");
+            azurePrCommandBuilder.Append($"--title '{commitMessage}' ");
+            azurePrCommandBuilder.Append($"--description '{commitMessage}'");
+            azurePrCommandBuilder.Append($"--work-items {taskNumber} ");
+            azurePrCommandBuilder.Append($"--auto-complete {autoComplete} ");
+            azurePrCommandBuilder.Append($"--delete-source-branch {deleteSourceBranch} ");
+            azurePrCommandBuilder.Append($"--merge-commit-message {commitMessage} ");
+            azurePrCommandBuilder.Append($"--transition-work-items {transitionWorkItems}");
+            
+            ps.AddScript(azurePrCommandBuilder.ToString()).Invoke();
 
-            Console.WriteLine($"Created PR for repository '{repositoryName}' from " +
-                              $"source branch '{branchName}' to target branch '{targetBranch}' " +
-                              $"with title and description: '{commitMessage}', " +
-                              $"for work item '{taskNumber}', auto-complete = '{autoComplete}', " +
-                              $"delete source branch ='{deleteSourceBranch}', " +
-                              $"transition work items = '{transitionWorkItems}'");
+            var logBuilder = new StringBuilder();
+            logBuilder.Append($"Created PR for repository '{repositoryName}' from ");
+            logBuilder.Append($"source branch '{branchName}' to target branch '{targetBranch}' ");
+            logBuilder.Append($"with title and description: '{commitMessage}', ");
+            logBuilder.Append($"for work items: '{taskNumber}', auto-complete = '{autoComplete}', ");
+            logBuilder.Append($"delete source branch ='{deleteSourceBranch}', ");
+            logBuilder.Append($"transition work items = '{transitionWorkItems}'");
+
+            Console.WriteLine(logBuilder.ToString());
         }
 
         private static void ChangeDirectory(
