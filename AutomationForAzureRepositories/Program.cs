@@ -31,8 +31,8 @@
         private static void Main()
         {
             var azureService = new AzureAutomationService(new GitService());
-            CreatePrForTask(azureService);
-            // CreatePullRequestsFromDevToMaster(azureService);
+            // CreatePrForTask(azureService);
+            CreatePullRequestsFromDevToMaster(azureService);
         }
 
         private static void CreatePrForTask(AzureAutomationService azureService)
