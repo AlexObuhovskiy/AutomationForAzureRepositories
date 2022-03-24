@@ -82,8 +82,6 @@ namespace AutomationForAzureRepositories
         {
             using var ps = PowerShell.Create();
 
-            ps.AddScript("az login").Invoke();
-            
             var azurePrCommandBuilder = new StringBuilder();
             azurePrCommandBuilder.Append("az repos pr create ");
             azurePrCommandBuilder.Append($"--org '{AzureDevOpsOrganizationUrl}' ");
@@ -94,10 +92,10 @@ namespace AutomationForAzureRepositories
             azurePrCommandBuilder.Append($"--title '{commitMessage}' ");
             azurePrCommandBuilder.Append($"--description '{commitMessage}'");
             azurePrCommandBuilder.Append($"--work-items {taskNumber} ");
-            azurePrCommandBuilder.Append($"--auto-complete {autoComplete} ");
-            azurePrCommandBuilder.Append($"--delete-source-branch {deleteSourceBranch} ");
-            azurePrCommandBuilder.Append($"--merge-commit-message {commitMessage} ");
-            azurePrCommandBuilder.Append($"--transition-work-items {transitionWorkItems}");
+            azurePrCommandBuilder.Append($"--auto-complete {autoComplete.ToString().ToLower()} ");
+            azurePrCommandBuilder.Append($"--delete-source-branch {deleteSourceBranch.ToString().ToLower()} ");
+            azurePrCommandBuilder.Append($"--merge-commit-message '{commitMessage}' ");
+            azurePrCommandBuilder.Append($"--transition-work-items {transitionWorkItems.ToString().ToLower()}");
             
             ps.AddScript(azurePrCommandBuilder.ToString()).Invoke();
 
@@ -105,9 +103,9 @@ namespace AutomationForAzureRepositories
             logBuilder.Append($"Created PR for repository '{repositoryName}' from ");
             logBuilder.Append($"source branch '{branchName}' to target branch '{targetBranch}' ");
             logBuilder.Append($"with title and description: '{commitMessage}', ");
-            logBuilder.Append($"for work items: '{taskNumber}', auto-complete = '{autoComplete}', ");
-            logBuilder.Append($"delete source branch ='{deleteSourceBranch}', ");
-            logBuilder.Append($"transition work items = '{transitionWorkItems}'");
+            logBuilder.Append($"for work items: '{taskNumber}', auto-complete = '{autoComplete.ToString().ToLower()}', ");
+            logBuilder.Append($"delete source branch ='{deleteSourceBranch.ToString().ToLower()}', ");
+            logBuilder.Append($"transition work items = '{transitionWorkItems.ToString().ToLower()}'");
 
             Console.WriteLine(logBuilder.ToString());
         }

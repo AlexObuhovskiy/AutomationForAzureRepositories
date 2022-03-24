@@ -5,13 +5,13 @@
         /// <summary>
         /// Change to folder that contain repositories
         /// </summary>
-        private const string RepositoriesFolderPath = "C:\\git";
-        //private const string RepositoriesFolderPath = "C:\\git\\UI";
+        //private const string RepositoriesFolderPath = "C:\\git";
+        private const string RepositoriesFolderPath = "C:\\git\\UI";
 
         /// <summary>
         /// Change project for PR
         /// </summary>
-        private const string ProjectForPr = RepositoriesConstants.BackEndConstants.AssetOrganization;
+        private const string ProjectForPr = RepositoriesConstants.FrontEndConstants.MxProgramManagementFrontend;
         
         /// <summary>
         /// Name of target branch for Pull Request
@@ -21,7 +21,7 @@
         /// <summary>
         /// Full task name copied from clipboard, E.G. 'Task 100200: test'
         /// </summary>
-        private const string FullTaskTitle = "Task 351631: Add using statement to all Transactions and Connections for DB operations";
+        private const string FullTaskTitle = "Task 352826: Fix: Cannot close all modals on MxOrders page";
 
         /// <summary>
         /// Commit message for merge 'dev' branch 'master' branch
@@ -31,7 +31,7 @@
         private static void Main()
         {
             var azureService = new AzureAutomationService(new GitService());
-            // CreatePrForTask(azureService);
+            //CreatePrForTask(azureService);
             CreatePullRequestsFromDevToMaster(azureService);
         }
 
