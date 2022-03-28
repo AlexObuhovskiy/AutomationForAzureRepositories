@@ -93,7 +93,8 @@ namespace AutomationForAzureRepositories
                 taskNumber,
                 deleteSourceBranch: true,
                 autoComplete: true,
-                transitionWorkItems: true);
+                transitionWorkItems: true,
+                squash: true);
         }
 
         public void CreatePullRequestsFromDevToMaster(string commitMessage)

@@ -27,7 +27,8 @@ namespace AutomationForAzureRepositories
             string taskNumber = "",
             bool autoComplete = false,
             bool deleteSourceBranch = false,
-            bool transitionWorkItems = false);
+            bool transitionWorkItems = false,
+            bool squash = false);
     }
 
     public class GitService : IGitService
@@ -78,7 +79,8 @@ namespace AutomationForAzureRepositories
             string taskNumber = "",
             bool autoComplete = false,
             bool deleteSourceBranch = false,
-            bool transitionWorkItems = false)
+            bool transitionWorkItems = false,
+            bool squash = false)
         {
             using var ps = PowerShell.Create();
 
@@ -95,7 +97,8 @@ namespace AutomationForAzureRepositories
             azurePrCommandBuilder.Append($"--auto-complete {autoComplete.ToString().ToLower()} ");
             azurePrCommandBuilder.Append($"--delete-source-branch {deleteSourceBranch.ToString().ToLower()} ");
             azurePrCommandBuilder.Append($"--merge-commit-message '{commitMessage}' ");
-            azurePrCommandBuilder.Append($"--transition-work-items {transitionWorkItems.ToString().ToLower()}");
+            azurePrCommandBuilder.Append($"--transition-work-items {transitionWorkItems.ToString().ToLower()} ");
+            azurePrCommandBuilder.Append($"--squash {squash.ToString().ToLower()} ");
             
             ps.AddScript(azurePrCommandBuilder.ToString()).Invoke();
 
@@ -105,7 +108,8 @@ namespace AutomationForAzureRepositories
             logBuilder.Append($"with title and description: '{commitMessage}', ");
             logBuilder.Append($"for work items: '{taskNumber}', auto-complete = '{autoComplete.ToString().ToLower()}', ");
             logBuilder.Append($"delete source branch ='{deleteSourceBranch.ToString().ToLower()}', ");
-            logBuilder.Append($"transition work items = '{transitionWorkItems.ToString().ToLower()}'");
+            logBuilder.Append($"transition work items = '{transitionWorkItems.ToString().ToLower()}' ");
+            logBuilder.Append($"squash = '{squash.ToString().ToLower()}' ");
 
             Console.WriteLine(logBuilder.ToString());
         }
