@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Management.Automation;
 using System.Text;
 
@@ -99,14 +101,17 @@ namespace AutomationForAzureRepositories
             azurePrCommandBuilder.Append($"--merge-commit-message '{commitMessage}' ");
             azurePrCommandBuilder.Append($"--transition-work-items {transitionWorkItems.ToString().ToLower()} ");
             azurePrCommandBuilder.Append($"--squash {squash.ToString().ToLower()} ");
-            
-            ps.AddScript(azurePrCommandBuilder.ToString()).Invoke();
+
+            var azurePrCommand = azurePrCommandBuilder.ToString();
+
+            ps.AddScript(azurePrCommand).Invoke();
 
             var logBuilder = new StringBuilder();
             logBuilder.Append($"Created PR for repository '{repositoryName}' from ");
             logBuilder.Append($"source branch '{branchName}' to target branch '{targetBranch}' ");
             logBuilder.Append($"with title and description: '{commitMessage}', ");
-            logBuilder.Append($"for work items: '{taskNumber}', auto-complete = '{autoComplete.ToString().ToLower()}', ");
+            logBuilder.Append(
+                $"for work items: '{taskNumber}', auto-complete = '{autoComplete.ToString().ToLower()}', ");
             logBuilder.Append($"delete source branch ='{deleteSourceBranch.ToString().ToLower()}', ");
             logBuilder.Append($"transition work items = '{transitionWorkItems.ToString().ToLower()}' ");
             logBuilder.Append($"squash = '{squash.ToString().ToLower()}' ");
